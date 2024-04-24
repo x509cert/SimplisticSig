@@ -11,11 +11,12 @@ byte[] hash = SHA256.HashData(dataBytes);
 byte[] signature = SignHash(hash, rsa.ExportParameters(true));
 
 Console.WriteLine("Data: " + data);
-Console.WriteLine("Hash: " + BitConverter.ToString(hash).Replace("-",""));
-Console.WriteLine("Signature: " + BitConverter.ToString(signature).Replace("-",""));
+Console.WriteLine("Hash: " + Convert.ToBase64String(hash));
+Console.WriteLine("Sig : " + Convert.ToBase64String(signature));
 
 bool isVerified = VerifyHash(hash, signature, rsa.ExportParameters(false));
 Console.WriteLine("Signature Verified: " + isVerified);
+
 static byte[] SignHash(byte[] hash, RSAParameters privateKey)
 {
     using var rsa = new RSACryptoServiceProvider();
