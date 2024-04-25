@@ -6,15 +6,15 @@ byte[] dataBytes = Encoding.UTF8.GetBytes(data);
 
 using var ecdsa = new ECDsaCng();
 byte[] ecdsaSignature = ecdsa.SignData(dataBytes, HashAlgorithmName.SHA256);
-Console.WriteLine("ECDSA Sig: " + Convert.ToBase64String(ecdsaSignature));
+Console.WriteLine($"ECDSA Sig: {Convert.ToBase64String(ecdsaSignature)}");
 bool ecdsaIsVerified = ecdsa.VerifyData(dataBytes, ecdsaSignature);
-Console.WriteLine("ECDSA Signature Verified: " + ecdsaIsVerified);
+Console.WriteLine($"ECDSA Signature Verified: {ecdsaIsVerified}");
 
 Console.WriteLine();
 
 using var rsa = new RSACryptoServiceProvider();
 byte[] rsaSignature = rsa.SignData(dataBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-Console.WriteLine("RSA Sig: " + Convert.ToBase64String(rsaSignature));
+Console.WriteLine($"RSA Sig: {Convert.ToBase64String(rsaSignature)}");
 bool rsaIsVerified = rsa.VerifyData(dataBytes, rsaSignature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-Console.WriteLine("RSA Signature Verified: " + rsaIsVerified);
+Console.WriteLine($"RSA Signature Verified: {rsaIsVerified}");
 
