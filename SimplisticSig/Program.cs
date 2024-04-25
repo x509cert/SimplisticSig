@@ -2,32 +2,19 @@
 using System.Security.Cryptography;
 
 string data = "Hello, digital signature world!";
+byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+
+using var ecdsa = new ECDsaCng();
+byte[] ecdsaSignature = ecdsa.SignData(dataBytes, HashAlgorithmName.SHA256);
+Console.WriteLine("ECDSA Sig: " + Convert.ToBase64String(ecdsaSignature));
+bool ecdsaIsVerified = ecdsa.VerifyData(dataBytes, ecdsaSignature);
+Console.WriteLine("ECDSA Signature Verified: " + ecdsaIsVerified);
+
+Console.WriteLine();
 
 using var rsa = new RSACryptoServiceProvider();
-
-byte[] dataBytes = Encoding.UTF8.GetBytes(data);
-byte[] hash = SHA256.HashData(dataBytes);
-
-byte[] signature = SignHash(hash, rsa.ExportParameters(true));
-
-Console.WriteLine("Data: " + data);
-Console.WriteLine("Hash: " + Convert.ToBase64String(hash));
-Console.WriteLine("Sig : " + Convert.ToBase64String(signature));
-
-bool isVerified = VerifyHash(hash, signature, rsa.ExportParameters(false));
-Console.WriteLine("Signature Verified: " + isVerified);
-
-static byte[] SignHash(byte[] hash, RSAParameters privateKey)
-{
-    using var rsa = new RSACryptoServiceProvider();
-    rsa.ImportParameters(privateKey);
-    return rsa.SignHash(hash, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-}
-
-static bool VerifyHash(byte[] hash, byte[] signature, RSAParameters publicKey)
-{
-    using var rsa = new RSACryptoServiceProvider();
-    rsa.ImportParameters(publicKey);
-    return rsa.VerifyHash(hash, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-}
+byte[] rsaSignature = rsa.SignData(dataBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+Console.WriteLine("RSA Sig: " + Convert.ToBase64String(rsaSignature));
+bool rsaIsVerified = rsa.VerifyData(dataBytes, rsaSignature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+Console.WriteLine("RSA Signature Verified: " + rsaIsVerified);
 
