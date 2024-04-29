@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-string data = "Hello, digital signature world!";
+string data = "We attack over the ridge at 1300Z";
 byte[] dataBytes = Encoding.UTF8.GetBytes(data);
 
 using var ecdsa = new ECDsaCng();
