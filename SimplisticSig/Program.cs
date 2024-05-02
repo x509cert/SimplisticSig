@@ -13,7 +13,7 @@ Console.WriteLine($"ECDSA Signature Verified: {ecdsaIsVerified}");
 Console.WriteLine();
 
 using var rsa = new RSACryptoServiceProvider();
-byte[] rsaSignature = rsa.SignData(dataBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+byte[] rsaSignature = rsa.SignData(dataBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pss);
 Console.WriteLine($"RSA Sig: {Convert.ToBase64String(rsaSignature)}");
 bool rsaIsVerified = rsa.VerifyData(dataBytes, rsaSignature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 Console.WriteLine($"RSA Signature Verified: {rsaIsVerified}");
